@@ -30,11 +30,5 @@ app.use("/api/order", orderRoutes);
 app.use("/api/user", userRoute);
 app.use("/api/cart", cartRoutes);
 app.use("/api/returns", returnRouter);
-const port = process.env.PORT || 8000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-  connectDB();
-  Product.find().then((products) => {
-    console.log(products);
-  });
-});
+connectDB();
+export default app;

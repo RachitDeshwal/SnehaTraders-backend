@@ -32,6 +32,7 @@ export const addProduct = async (req, res) => {
   }
 };
 export const listProduct = async (req, res) => {
+   console.log("list product called");
   try {
     const product = await Product.find({});
     return res.status(201).json(product);

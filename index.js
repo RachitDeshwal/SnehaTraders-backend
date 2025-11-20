@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5174", "http://localhost:5173","https://sneha-traders-frontend-1pb4-p9hj7fah7-rachitdeshwals-projects.vercel.app"],
+    origin: ["http://localhost:5174", "http://localhost:5173","https://sneha-traders-frontend-1pb4-p9hj7fah7-rachitdeshwals-projects.vercel.app","https://sneha-traders-admin.vercel.app/"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })

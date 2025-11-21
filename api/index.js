@@ -15,8 +15,13 @@ dotenv.config();
 
 const app = express();
 
+// ⭐ Must disable Express' default ETag to avoid caching on serverless
+app.disable("etag");
+
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
+
 app.use(
   cors({
     origin: [
@@ -28,8 +33,10 @@ app.use(
   })
 );
 
-connectDB();
+// ⭐ Important: call DB only once
+await connectDB();
 
+// Routes
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRoutes);
 app.use("/api/order", orderRoutes);
@@ -37,5 +44,7 @@ app.use("/api/user", userRoute);
 app.use("/api/cart", cartRoutes);
 app.use("/api/returns", returnRouter);
 
-// ❗ IMPORTANT: Export handler for Vercel
-export default app;
+// ⭐ REQUIRED FOR VERCEL SERVERLESS
+export default function handler(req, res) {
+  return app(req, res);
+}

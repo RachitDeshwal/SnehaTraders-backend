@@ -1,13 +1,22 @@
 import mongoose from "mongoose";
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("DB connected");
-  } catch (e) {
-    console.log(e);
+
+let isConnected = false; // Track connection status
+
+export default async function connectDB() {
+  if (isConnected) {
+    // If already connected, reuse existing connection
+    return;
   }
-};
-export default connectDB;
+
+  try {
+    const db = await mongoose.connect(process.env.MONGO_URL, {
+      bufferCommands: false,
+    });
+
+    isConnected = db.connections[0].readyState === 1;
+
+    console.log("MongoDB Connected (Serverless)");
+  } catch (err) {
+    console.error("MongoDB connection error:", err.message);
+  }
+}
